@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.dao.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.smart.model.Role">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+
+  <resultMap id="CustomResultMap" type="com.smart.model.Role" extends="BaseResultMap">
+    <collection property="permissionList" ofType="com.smart.model.Permission">
+      <id column="tp_id" jdbcType="BIGINT" property="id" />
+      <result column="tp_name" jdbcType="VARCHAR" property="name" />
+    </collection>
+  </resultMap>
+
+  <resultMap id="PageCustomResultMap" type="com.smart.model.Role" extends="BaseResultMap">
+    <collection property="permissionList" ofType="com.smart.model.Permission"
+                column="roleId=id" select="com.smart.dao.PermissionMapper.findByRoleId">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+    </collection>
+  </resultMap>
+
+    <select id="findRolesByUserId" resultMap="BaseResultMap">
+      SELECT r.*
+      FROM tbl_user_role ur,
+      tbl_role r
+      WHERE ur.role_id = r.id AND ur.user_id = #{userId}
+    </select>
+
+  <select id="findRoleById" resultMap="CustomResultMap">
+    SELECT tr.*,tp.id AS 'tp_id',tp.name AS 'tp_name'
+    FROM tbl_role tr
+    left JOIN tbl_role_permission trp
+    ON tr.id = trp.role_id
+    LEFT JOIN tbl_permission tp
+    ON trp.permission_id = tp.id
+    WHERE tr.id = #{id}
+  </select>
+
+  <select id="pageList" resultMap="PageCustomResultMap">
+    SELECT *
+    FROM tbl_role
+  </select>
+
+</mapper>

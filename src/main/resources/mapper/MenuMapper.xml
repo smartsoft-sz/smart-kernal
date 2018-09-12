@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.dao.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.smart.model.Menu">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+    <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+    <result column="last_modified_by" jdbcType="BIGINT" property="lastModifiedBy"/>
+    <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
+    <result column="version" jdbcType="INTEGER" property="version"/>
+    <result column="icon" jdbcType="VARCHAR" property="icon"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="router_name" jdbcType="VARCHAR" property="routerName"/>
+    <result column="link_url" jdbcType="VARCHAR" property="linkUrl"/>
+    <result column="status" jdbcType="TINYINT" property="status"/>
+  </resultMap>
+
+  <resultMap id="CustomResultMap" type="com.smart.model.Menu" extends="BaseResultMap">
+    <collection property="roleList" ofType="com.smart.model.Role">
+      <id column="role_id" jdbcType="BIGINT" property="id"/>
+      <result column="role_code" jdbcType="VARCHAR" property="code"/>
+      <result column="role_name" jdbcType="VARCHAR" property="name"/>
+    </collection>
+  </resultMap>
+
+
+  <select id="findAllMenusWithRoles" resultMap="CustomResultMap">
+    select
+      m.*,
+      r.id as role_id,
+      r.code as role_code,
+      r.name as role_name
+    from `tbl_menu` m
+      left join `tbl_menu_role` mr on m.`id` = mr.`menu_id`
+      left join `tbl_role` r on mr.`role_id` = r.`id`
+  </select>
+
+</mapper>

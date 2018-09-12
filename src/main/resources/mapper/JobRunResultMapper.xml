@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.dao.JobRunResultMapper">
+    <resultMap id="BaseResultMap" type="com.smart.model.JobRunResult">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="job_id" jdbcType="BIGINT" property="jobId"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="run_time" jdbcType="DOUBLE" property="runTime"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="job_error" jdbcType="VARCHAR" property="jobError"/>
+        <association property="scheduleJob" javaType="com.smart.model.ScheduleJob">
+            <id column="jobId" jdbcType="BIGINT" property="id" />
+            <result column="job_name" jdbcType="VARCHAR" property="jobName" />
+        </association>
+    </resultMap>
+
+    <select id="findAllJobRunResult" resultMap="BaseResultMap">
+        SELECT *,tj.job_name as job_name
+        FROM tbl_job_run_result tjrr,tbl_schedule_job tj
+        WHERE tjrr.job_id = tj.id
+        ORDER BY tjrr.id DESC
+    </select>
+
+    <select id="findByStatus" resultMap="BaseResultMap">
+      SELECT *,tj.job_name as job_name
+      FROM tbl_job_run_result tjrr,tbl_schedule_job tj
+      WHERE tjrr.status = #{status} AND tjrr.job_id = tj.id
+      ORDER BY tjrr.id DESC
+  </select>
+
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.dao.PermissionMapper">
+  <resultMap id="BaseResultMap" type="com.smart.model.Permission">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="created_by" jdbcType="BIGINT" property="createdBy" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="last_modified_by" jdbcType="BIGINT" property="lastModifiedBy" />
+    <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+  </resultMap>
+
+  <resultMap id="CustomResultMap" type="com.smart.model.Permission" extends="BaseResultMap">
+    <collection property="resourceList" ofType="com.smart.model.Resource">
+      <id column="res_id" jdbcType="BIGINT" property="id" />
+      <result column="res_name" jdbcType="VARCHAR" property="name" />
+    </collection>
+  </resultMap>
+
+  <resultMap id="PageCustomResultMap" type="com.smart.model.Permission" extends="BaseResultMap">
+    <collection property="resourceList" column="permissionId=id"
+                ofType="com.smart.model.Resource" select="com.smart.dao.ResourceMapper.getResourcesByPermissionId">
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="url" jdbcType="VARCHAR" property="url" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+    </collection>
+  </resultMap>
+
+  <select id="findByUserId" resultMap="BaseResultMap">
+    SELECT tp.*
+    FROM tbl_user_role tur ,tbl_role_permission trp,tbl_permission tp
+    WHERE tur.user_id = #{userId}
+    AND tur.role_id = trp.role_id
+    AND trp.permission_id = tp.id
+  </select>
+
+  <select id="findPermissionById" resultMap="CustomResultMap">
+    SELECT tp.*,tr.id AS 'res_id',tr.name AS 'res_name'
+    FROM tbl_permission tp,tbl_resource_permission trp,tbl_resource tr
+    WHERE tp.id = #{permissionId}
+    AND tp.id = trp.permission_id
+    AND trp.resource_id = tr.id
+  </select>
+
+  <select id="pageList" resultMap="PageCustomResultMap">
+    select * from tbl_permission
+  </select>
+
+  <select id="findByRoleId" resultMap="BaseResultMap">
+    select tp.*
+    from tbl_permission tp,tbl_role_permission trp
+    WHERE trp.role_id = #{roleId}
+    AND trp.permission_id = tp.id
+  </select>
+</mapper>

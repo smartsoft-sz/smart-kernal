@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.dao.KeySeqMapper">
+  <resultMap id="BaseResultMap" type="com.smart.model.KeySeq">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="key_name" jdbcType="VARCHAR" property="keyName" />
+    <result column="cur_key" jdbcType="BIGINT" property="curKey" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+  </resultMap>
+
+  <update id="resetSeq">
+    update tbl_key_seq SET cur_key = 1, last_modified_date = current_time()
+  </update>
+</mapper>
