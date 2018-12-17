@@ -1,16 +1,4 @@
-# smart-kernal
-
-## 基础框架
-- 在本地maven配置文件settings.xml,修改：
-```
-<server>
-        <id>github</id>
-        <username>smartsoft168</username>
-        <password>对应密码</password>
-    </server>
-```
-
-- 修改代码之后，jar放到远程仓库: 运行：mvn clean deploy
-
+# 项目开发的公共库
+- 如果需要修改，可直接在开发项目里拷贝过去覆盖
 
  
