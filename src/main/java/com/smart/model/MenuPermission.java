@@ -2,15 +2,15 @@ package com.smart.model;
 
 import javax.persistence.*;
 
-@Table(name = "tbl_menu_role")
-public class MenuRole {
+@Table(name = "tbl_menu_permission")
+public class MenuPermission {
     @Id
     @Column(name = "menu_id")
     private Long menuId;
 
     @Id
-    @Column(name = "role_id")
-    private Long roleId;
+    @Column(name = "permission_id")
+    private Long permissionId;
 
     /**
      * @return menu_id
@@ -26,17 +26,11 @@ public class MenuRole {
         this.menuId = menuId;
     }
 
-    /**
-     * @return role_id
-     */
-    public Long getRoleId() {
-        return roleId;
+    public Long getPermissionId() {
+        return permissionId;
     }
 
-    /**
-     * @param roleId
-     */
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setPermissionId(Long permissionId) {
+        this.permissionId = permissionId;
     }
 }

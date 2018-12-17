@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.dao.MenuPermissionMapper">
+  <resultMap id="BaseResultMap" type="com.smart.model.MenuPermission">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="menu_id" jdbcType="BIGINT" property="menuId" />
+    <id column="permission_id" jdbcType="BIGINT" property="permissionId" />
+  </resultMap>
+
+  <delete id="deleteByMenuId">
+    DELETE FROM tbl_menu_permission
+    where menu_id = #{menuId}
+  </delete>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.dao.EmailTemplateMapper">
+  <resultMap id="BaseResultMap" type="com.smart.model.EmailTemplate">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="template_id" jdbcType="VARCHAR" property="templateId" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="parameter" jdbcType="VARCHAR" property="parameter" />
+    <result column="template_subject" jdbcType="VARCHAR" property="templateSubject" />
+    <result column="template_from" jdbcType="VARCHAR" property="templateFrom" />
+    <result column="template_from_name" jdbcType="VARCHAR" property="templateFromName" />
+    <result column="template_to" jdbcType="VARCHAR" property="templateTo" />
+    <result column="template_cc" jdbcType="VARCHAR" property="templateCc" />
+    <result column="template_bcc" jdbcType="VARCHAR" property="templateBcc" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="created_by" jdbcType="BIGINT" property="createdBy" />
+    <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate" />
+    <result column="last_modified_by" jdbcType="BIGINT" property="lastModifiedBy" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+</mapper>

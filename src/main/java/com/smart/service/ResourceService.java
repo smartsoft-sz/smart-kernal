@@ -12,4 +12,6 @@ public interface ResourceService extends Service<Resource> {
 
     List<Resource> getResourcesByPermissionId(Long id);
 
+    List<Resource> filter(String keyword);
+
 }

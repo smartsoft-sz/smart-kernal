@@ -1,54 +1,54 @@
 package com.smart.web;
 
-import com.smart.core.Result;
-import com.smart.core.ResultGenerator;
-import com.smart.model.MenuRole;
-import com.smart.service.MenuRoleService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.web.bind.annotation.*;
+import com.smart.core.Result;
+import com.smart.core.ResultGenerator;
+import com.smart.model.EmailTemplate;
+import com.smart.service.EmailTemplateService;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 /**
-* Created by CodeGenerator on 2018/08/30.
+* Created by CodeGenerator on 2018/05/18.
 */
 @RestController
-@RequestMapping("/menu/role")
-public class MenuRoleController {
+@RequestMapping("/emailTemplate")
+public class EmailTemplateController {
     @Resource
-    private MenuRoleService menuRoleService;
+    private EmailTemplateService emailTemplateService;
 
     @PostMapping
-    public Result add(@Validated @RequestBody MenuRole menuRole) {
-        menuRoleService.save(menuRole);
+    public Result add(@Validated @RequestBody EmailTemplate emailTemplate) {
+        emailTemplateService.save(emailTemplate);
         return ResultGenerator.genSuccessResult();
     }
 
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Long id) {
-        menuRoleService.deleteByPK(id);
+        emailTemplateService.deleteByPK(id);
         return ResultGenerator.genSuccessResult();
     }
 
     @PutMapping
-    public Result update(@Validated @RequestBody MenuRole menuRole) {
-        menuRoleService.updateByPK(menuRole);
+    public Result update(@Validated @RequestBody EmailTemplate emailTemplate) {
+        emailTemplateService.updateByPK(emailTemplate);
         return ResultGenerator.genSuccessResult();
     }
 
     @GetMapping("/{id}")
     public Result detail(@PathVariable Long id) {
-        MenuRole menuRole = menuRoleService.findById(id);
-        return ResultGenerator.genSuccessResult(menuRole);
+        EmailTemplate emailTemplate = emailTemplateService.findById(id);
+        return ResultGenerator.genSuccessResult(emailTemplate);
     }
 
     @GetMapping
     public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
         PageHelper.startPage(page, size);
-        List<MenuRole> list = menuRoleService.findAll();
+        List<EmailTemplate> list = emailTemplateService.findAll();
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

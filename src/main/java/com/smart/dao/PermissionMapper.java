@@ -13,4 +13,6 @@ public interface PermissionMapper extends Mapper<Permission> {
     List<Permission> pageList();
 
     Permission findPermissionById(@Param("permissionId") Long id);
+
+    List<Permission> findByMenuId(@Param("menuIdList") List<Long> menuIdList);
 }

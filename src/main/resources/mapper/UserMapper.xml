@@ -19,8 +19,10 @@
     <result column="last_modified_by" jdbcType="BIGINT" property="lastModifiedBy"/>
     <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
     <result column="version" jdbcType="INTEGER" property="version"/>
+  </resultMap>
 
-    <collection property="role" javaType="com.smart.model.Role">
+  <resultMap id="correlationResultMap" type="com.smart.model.User" extends="BaseResultMap">
+    <collection property="roles" ofType="com.smart.model.Role">
       <id column="roleId" jdbcType="BIGINT" property="id" />
       <result column="code" jdbcType="VARCHAR" property="code" />
       <result column="roleName" jdbcType="VARCHAR" property="name" />
@@ -28,10 +30,33 @@
     </collection>
   </resultMap>
 
-  <select id="getUserRoleByUserId" resultMap="BaseResultMap">
-    SELECT tu.*, tr.name AS roleName, tr.id AS roleId FROM tbl_user tu left JOIN  tbl_user_role tur ON tu.id = tur.user_id
+  <resultMap id="PageResultMap" type="com.smart.model.User" extends="BaseResultMap">
+    <collection property="roles" ofType="com.smart.model.Role" column="userId=id"
+                select="com.smart.dao.RoleMapper.findRolesByUserId" >
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="code" jdbcType="VARCHAR" property="code" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+    </collection>
+  </resultMap>
+
+  <select id="getUserRoleByUserId" resultMap="correlationResultMap">
+    SELECT tu.*, tr.name AS roleName, tr.id AS roleId
+    FROM tbl_user tu
+    left JOIN  tbl_user_role tur
+    ON tu.id = tur.user_id
     left JOIN tbl_role tr ON tr.id = tur.role_id
     WHERE tu.id = #{id}
+  </select>
+
+  <select id="listUserPage" resultMap="PageResultMap">
+    SELECT *
+    FROM tbl_user
+    <where>
+      <if test=" keyword != null">
+        AND name like concat('%',#{keyword},'%')
+        OR mobile like concat('%',#{keyword},'%')
+      </if>
+    </where>
   </select>
 
 </mapper>

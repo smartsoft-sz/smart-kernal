@@ -18,16 +18,16 @@ import java.io.InputStream;
 @Component
 public final class QiniuyunServiceManager {
 
-    @Value("${qiniuyun.ak}")
+    @Value("${qiniuyun.ak:}")
     private String ak;
 
-    @Value("${qiniuyun.sk}")
+    @Value("${qiniuyun.sk:}")
     private String sk;
 
-    @Value("${qiniuyun.bucket}")
+    @Value("${qiniuyun.bucket:}")
     private String bucket;
 
-    @Value("${qiniuyun.outline}")
+    @Value("${qiniuyun.outline:}")
     private String outline;
 
     public FileResultDTO uploadInputStream(InputStream is) {

@@ -50,4 +50,14 @@ public class ResourceController {
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
+
+    @GetMapping("/filter")
+    public Result filter(@RequestParam(defaultValue = "0") Integer page,
+                         @RequestParam(defaultValue = "0") Integer size,
+                         @RequestParam(required = false)String keyword) {
+        PageHelper.startPage(page, size);
+        List<com.smart.model.Resource> list = resourceService.filter(keyword);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
 }

@@ -23,4 +23,11 @@ public class ResourceServiceImpl extends AbstractService<com.smart.model.Resourc
     public List<Resource> getResourcesByPermissionId(Long id) {
         return tblResourceMapper.getResourcesByPermissionId(id);
     }
+
+    @Override
+    public List<Resource> filter(String keyword) {
+        return tblResourceMapper.filter(keyword);
+    }
+
+
 }

@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Condition;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -26,5 +28,10 @@ public class UserRoleServiceImpl extends AbstractService<UserRole> implements Us
         Condition.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("userId",userId);
         return tblUserRoleMapper.deleteByCondition(condition);
+    }
+
+    @Override
+    public void saveUserRole(Long userId, List<Long> roleIds) {
+        tblUserRoleMapper.save(userId,roleIds);
     }
 }

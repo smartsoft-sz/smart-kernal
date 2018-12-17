@@ -4,6 +4,7 @@ import com.smart.model.Permission;
 import com.smart.model.Resource;
 import com.smart.service.PermissionService;
 import com.smart.service.ResourceService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -109,12 +110,16 @@ public class CustomInvocationSecurityMetadataSourceService implements CustomerFi
         if(resourceMap == null || resourceMap.isEmpty()){
             return null;
         }
+        Set<ConfigAttribute> list = new HashSet<>();
         for(AntPathRequestMatcher requestMatcher: resourceMap.keySet()){
             if((requestMatcher).matches(request)){
-                return resourceMap.get(requestMatcher);
+                list.addAll(resourceMap.get(requestMatcher));
             }
         }
-        return null;
+        if (CollectionUtils.isEmpty(list)){
+            return null;
+        }
+        return list;
     }
 
     @Override

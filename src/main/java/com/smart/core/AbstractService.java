@@ -1,17 +1,13 @@
 package com.smart.core;
 
 
-import com.smart.model.User;
 import com.smart.security.SecurityUtils;
-import com.smart.service.UserService;
 import com.smart.service.util.HanyuPinyin;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Condition;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,21 +32,8 @@ public abstract class AbstractService<T> implements Service<T> {
 
     private static String field_name_id = "id";
 
-    private static String field_operate_date = "operateDate";
-
-    private static String field_operate_month = "operateMonth";
-
-    private static String field_operate_year = "operateYear";
-
-    private static String field_operate_datetime = "operateDatetime";
-
-    private static String field_operator_name = "operatorName";
-
     @Autowired
     protected Mapper<T> mapper;
-
-    @Resource
-    private UserService userService;
 
     private Class<T> modelClass;    // 当前泛型真实类型的Class
 
@@ -73,7 +56,7 @@ public abstract class AbstractService<T> implements Service<T> {
         LocalDateTime currentDate = LocalDateTime.now();
         if("create".equalsIgnoreCase(actionType)) {
             if (isFieldExist(model, field_name_create_date)) {
-                LocalDateTime createDate = (LocalDateTime) Reflections.invokeGetter(model, field_name_create_date);
+                Object createDate = Reflections.invokeGetter(model, field_name_create_date);
                 if (createDate == null) {
                     Reflections.invokeSetter(model, field_name_create_date, currentDate);
                 }
@@ -87,66 +70,14 @@ public abstract class AbstractService<T> implements Service<T> {
 
             }
 
-            if(isFieldExist(model, field_operate_datetime)){
-                LocalDateTime operateDatetime = (LocalDateTime) Reflections.invokeGetter(model, field_operate_datetime);
-                if(operateDatetime == null){
-                    Reflections.invokeSetter(model, field_operate_datetime, currentDate);
-                }
-            }
-
-            if(isFieldExist(model, field_operate_date)){
-                LocalDate operateDate = (LocalDate) Reflections.invokeGetter(model, field_operate_date);
-                if(operateDate == null){
-                    Reflections.invokeSetter(model, field_operate_date, currentDate.toLocalDate());
-                }
-            }
-
-            if(isFieldExist(model, field_operate_year)){
-                String operateYear = (String) Reflections.invokeGetter(model, field_operate_year);
-                if(operateYear == null){
-                    Reflections.invokeSetter(model, field_operate_year, String.valueOf(currentDate.getYear()));
-                }
-            }
-
-            if(isFieldExist(model, field_operate_month)){
-                String operateMonth = (String) Reflections.invokeGetter(model, field_operate_month);
-                if(operateMonth == null){
-                    String year = String.valueOf(currentDate.getYear());
-                    String month = String.valueOf(currentDate.getMonthValue());
-                    String monthOfYear = "";
-                    if(Integer.parseInt(month)>0 && Integer.parseInt(month)<9){
-                        monthOfYear = year + "0" +month;
-                    }else{
-                        monthOfYear = year + month;
-                    }
-                    Reflections.invokeSetter(model, field_operate_month, monthOfYear);
-                }
-            }
-
-            if(isFieldExist(model, field_operator_name)){
-                String operatorName = (String) Reflections.invokeGetter(model, field_operator_name);
-                if(operatorName == null){
-                    if(currentUserId != null){
-                        User user = userService.findById(currentUserId);
-                        Reflections.invokeSetter(model, field_operator_name, "张三");
-                    }
-                }
-            }
         }
 
         if (isFieldExist(model, field_name_update_date)) {
-//            Date udateDate = (Date)Reflections.invokeGetter(model, field_name_update_date);
-//            if(udateDate == null){
             Reflections.invokeSetter(model, field_name_update_date, currentDate);
-//            }
         }
 
         if (isFieldExist(model, field_name_update_user_id)) {
-//            Long updateUserId = (Long) Reflections.invokeGetter(model, field_name_update_user_id);
-//            if (updateUserId == null) {
                 Reflections.invokeSetter(model, field_name_update_user_id, currentUserId);
-//            }
-
         }
 
         if (isFieldExist(model, field_name_version)) {

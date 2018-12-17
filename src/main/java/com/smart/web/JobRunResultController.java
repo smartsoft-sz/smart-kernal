@@ -55,7 +55,9 @@ public class JobRunResultController {
     }
 
     @GetMapping("/status")
-    public Result getJobRunResultByStatus(@RequestParam() String status,@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
+    public Result getJobRunResultByStatus(@RequestParam() String status,
+                                          @RequestParam(defaultValue = "0") Integer page,
+                                          @RequestParam(defaultValue = "0") Integer size) {
         PageHelper.startPage(page, size);
         List<JobRunResult> list;
         if (StringUtils.equals(status,"ALL")) {

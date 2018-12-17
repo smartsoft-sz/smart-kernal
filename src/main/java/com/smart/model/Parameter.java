@@ -1,5 +1,12 @@
 package com.smart.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.smart.util.JsonDateDeserializer;
+import com.smart.util.JsonDateSerializer;
+import org.apache.tomcat.jni.Local;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.*;
 
@@ -29,14 +36,18 @@ public class Parameter {
     @Column(name = "created_by")
     private Long createdBy;
 
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @JsonSerialize(using = JsonDateSerializer.class)
     @Column(name = "created_date")
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @Column(name = "last_modified_by")
     private Long lastModifiedBy;
 
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @JsonSerialize(using = JsonDateSerializer.class)
     @Column(name = "last_modified_date")
-    private Date lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
     private Integer version;
 
@@ -159,14 +170,14 @@ public class Parameter {
     /**
      * @return created_date
      */
-    public Date getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
     /**
      * @param createdDate
      */
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -187,14 +198,14 @@ public class Parameter {
     /**
      * @return last_modified_date
      */
-    public Date getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
     /**
      * @param lastModifiedDate
      */
-    public void setLastModifiedDate(Date lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 

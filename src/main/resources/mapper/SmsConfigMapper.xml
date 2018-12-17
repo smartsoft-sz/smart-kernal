@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.dao.SmsConfigMapper">
+  <resultMap id="BaseResultMap" type="com.smart.model.SmsConfig">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="access_key_id" jdbcType="VARCHAR" property="accessKeyId" />
+    <result column="access_key_secret" jdbcType="VARCHAR" property="accessKeySecret" />
+    <result column="sign_name" jdbcType="VARCHAR" property="signName" />
+    <result column="send_type" jdbcType="VARCHAR" property="sendType" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="created_by" jdbcType="BIGINT" property="createdBy" />
+    <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate" />
+    <result column="last_modified_by" jdbcType="BIGINT" property="lastModifiedBy" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+  </resultMap>
+
+</mapper>

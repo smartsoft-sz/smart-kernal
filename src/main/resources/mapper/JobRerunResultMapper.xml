@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.dao.JobRerunResultMapper">
+    <resultMap id="BaseResultMap" type="com.smart.model.JobRerunResult">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="job_id" jdbcType="BIGINT" property="jobId"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="run_time" jdbcType="TIMESTAMP" property="runTime"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="job_item_status" jdbcType="VARCHAR" property="jobItemStatus"/>
+        <result column="job_error" jdbcType="LONGVARCHAR" property="jobError"/>
+        <association property="job" javaType="com.smart.model.Job">
+            <id column="jobId" jdbcType="BIGINT" property="id"/>
+            <result column="job_name" jdbcType="VARCHAR" property="name"/>
+            <result column="code" jdbcType="VARCHAR" property="code"/>
+            <result column="description" jdbcType="VARCHAR" property="description"/>
+            <result column="interval_value" jdbcType="BIGINT" property="intervalValue"/>
+            <result column="unit" jdbcType="VARCHAR" property="unit"/>
+            <result column="bean_name" jdbcType="VARCHAR" property="beanName"/>
+            <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+            <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+            <result column="last_modified_by" jdbcType="BIGINT" property="lastModifiedBy"/>
+            <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
+            <result column="version" jdbcType="INTEGER" property="version"/>
+        </association>
+    </resultMap>
+
+    <select id="findAllJobRerunResult" resultMap="BaseResultMap">
+        SELECT *,tj.name as job_name
+        FROM tbl_job_rerun_result tjrr,tbl_job tj
+        WHERE tjrr.job_id = tj.id
+        ORDER BY tjrr.id DESC
+  </select>
+
+    <select id="findByStatus" resultMap="BaseResultMap">
+      SELECT *,tj.name as job_name
+      FROM tbl_job_rerun_result tjrr,tbl_job tj
+      WHERE tjrr.status = #{status} AND tjrr.job_id = tj.id
+      ORDER BY tjrr.id DESC
+  </select>
+
+    <select id="findByJobItemStatus" resultMap="BaseResultMap">
+    SELECT *
+    FROM tbl_job_rerun_result
+    WHERE status = #{status} AND job_item_status = #{jobItemStatus}
+    ORDER BY id desc
+  </select>
+
+</mapper>

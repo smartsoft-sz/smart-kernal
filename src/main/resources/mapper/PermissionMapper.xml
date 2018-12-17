@@ -58,4 +58,15 @@
     WHERE trp.role_id = #{roleId}
     AND trp.permission_id = tp.id
   </select>
+
+  <select id="findByMenuId" resultMap="BaseResultMap">
+    SELECT DISTINCT(tp.id) ,tp.*
+    from tbl_permission tp ,tbl_menu_permission tmp
+    where tmp.menu_id in (
+    <foreach collection="menuIdList" item="id" separator=",">
+      #{id}
+    </foreach>
+    )
+    AND tmp.permission_id = tp.id
+  </select>
 </mapper>

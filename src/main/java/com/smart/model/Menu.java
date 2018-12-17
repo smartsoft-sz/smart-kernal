@@ -46,16 +46,19 @@ public class Menu {
 
     private Byte status;
 
+    @Column(name = "parent_id")
+    private Long parentId;
+
+    @Column(name = "seq_num")
+    private Integer seqNum;
+
+    private String category;
+
     @Transient
-    private List<Role> roleList;
+    private List<Permission> permissionList;
 
-    public List<Role> getRoleList() {
-        return roleList;
-    }
-
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
-    }
+    @Transient
+    private Long permissionId;
 
     /**
      * @return id
@@ -209,5 +212,45 @@ public class Menu {
      */
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public List<Permission> getPermissionList() {
+        return permissionList;
+    }
+
+    public void setPermissionList(List<Permission> permissionList) {
+        this.permissionList = permissionList;
+    }
+
+    public Long getPermissionId() {
+        return permissionId;
+    }
+
+    public void setPermissionId(Long permissionId) {
+        this.permissionId = permissionId;
+    }
+
+    public Integer getSeqNum() {
+        return seqNum;
+    }
+
+    public void setSeqNum(Integer seqNum) {
+        this.seqNum = seqNum;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

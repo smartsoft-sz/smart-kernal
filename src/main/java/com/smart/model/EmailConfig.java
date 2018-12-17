@@ -1,5 +1,10 @@
 package com.smart.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.smart.util.JsonDateDeserializer;
+import com.smart.util.JsonDateSerializer;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -26,12 +31,16 @@ public class EmailConfig {
     @Column(name = "email_from")
     private String emailFrom;
 
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @JsonSerialize(using = JsonDateSerializer.class)
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     @Column(name = "created_by")
     private Long createdBy;
 
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @JsonSerialize(using = JsonDateSerializer.class)
     @Column(name = "last_modified_date")
     private LocalDateTime lastModifiedDate;
 

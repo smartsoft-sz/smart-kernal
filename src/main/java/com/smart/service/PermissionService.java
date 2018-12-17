@@ -21,4 +21,6 @@ public interface PermissionService extends Service<Permission> {
     void deletePermission(Long id);
 
     void updatePermission(Permission permission);
+
+    List<Permission> findByMenuId(List<Long> menuIdList);
 }

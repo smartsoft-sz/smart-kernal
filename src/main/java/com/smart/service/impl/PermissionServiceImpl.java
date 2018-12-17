@@ -86,5 +86,9 @@ public class PermissionServiceImpl extends AbstractService<Permission> implement
         }
     }
 
+    @Override
+    public List<Permission> findByMenuId(List<Long> menuIdList) {
+        return tblPermissionMapper.findByMenuId(menuIdList);
+    }
 
 }

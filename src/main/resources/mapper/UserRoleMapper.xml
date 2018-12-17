@@ -9,4 +9,11 @@
     <id column="role_id" jdbcType="BIGINT" property="roleId" />
   </resultMap>
 
+  <insert id="save" >
+    INSERT into tbl_user_role (user_id, role_id)
+    VALUES
+    <foreach collection="roleIds" item="roleId" separator=",">
+      (#{userId},#{roleId})
+    </foreach>
+  </insert>
 </mapper>

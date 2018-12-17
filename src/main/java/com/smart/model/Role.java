@@ -21,6 +21,12 @@ public class Role {
     @Transient
     private List<Permission> permissionList;
 
+    @Transient
+    private List<Menu> menuList;
+
+    @Transient
+    private List<Long> menuIds;
+
     /**
      * @return id
      */
@@ -91,5 +97,21 @@ public class Role {
 
     public void setPermissionList(List<Permission> permissionList) {
         this.permissionList = permissionList;
+    }
+
+    public List<Menu> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<Menu> menuList) {
+        this.menuList = menuList;
+    }
+
+    public List<Long> getMenuIds() {
+        return menuIds;
+    }
+
+    public void setMenuIds(List<Long> menuIds) {
+        this.menuIds = menuIds;
     }
 }

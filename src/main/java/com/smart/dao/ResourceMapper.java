@@ -9,4 +9,6 @@ import java.util.List;
 public interface ResourceMapper extends Mapper<Resource> {
 
     List<Resource> getResourcesByPermissionId(@Param("permissionId") Long id);
+
+    List<Resource> filter(@Param("keyword") String keyword);
 }

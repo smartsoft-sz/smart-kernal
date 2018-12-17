@@ -1,9 +1,11 @@
 package com.smart.service;
+import com.smart.bo.MenuBO;
 import com.smart.core.Result;
 import com.smart.model.Menu;
 import com.smart.core.Service;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -11,5 +13,15 @@ import java.util.List;
  */
 public interface MenuService extends Service<Menu> {
 
-    List<Menu> findAllMenusWithRoles();
+    List<Menu> findAllMenusWithPermissions();
+
+    void addMenu(Menu menu);
+
+    void deleteMenu(Long id);
+
+    void updateMenu(Menu menu);
+
+    Menu findMenuDetial(Long id);
+
+    Map<Long,List<MenuBO>> listMenuBO();
 }

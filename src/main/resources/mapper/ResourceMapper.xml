@@ -24,4 +24,15 @@
     WHERE trp.permission_id = #{permissionId}
     AND trp.resource_id = tr.id
   </select>
+
+  <select id="filter" resultMap="BaseResultMap">
+    SELECT *
+    FROM tbl_resource
+    <where>
+      <if test=" keyword != null">
+        AND name like concat('%',#{keyword},'%')
+        OR url like concat ('%',#{keyword},'%')
+      </if>
+    </where>
+  </select>
 </mapper>

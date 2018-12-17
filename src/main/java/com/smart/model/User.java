@@ -60,6 +60,9 @@ public class User {
     @Transient
     private List<Role> roles;
 
+    @Transient
+    private List<Long> roleIds;
+
     public Role getRole() {
         return role;
     }
@@ -81,6 +84,9 @@ public class User {
 
     @Transient
     private UserRole userRole;
+
+    @Transient
+    private List<Permission> permissionList ;
 
 
     /**
@@ -293,6 +299,22 @@ public class User {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<Long> getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(List<Long> roleIds) {
+        this.roleIds = roleIds;
+    }
+
+    public List<Permission> getPermissionList() {
+        return permissionList;
+    }
+
+    public void setPermissionList(List<Permission> permissionList) {
+        this.permissionList = permissionList;
     }
 
     @Override

@@ -35,6 +35,12 @@ public class UserController {
         return ResultGenerator.genSuccessResult();
     }
 
+    @DeleteMapping("/deleteUser/{id}")
+    public Result deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResultGenerator.genSuccessResult();
+    }
+
     @PutMapping
     public Result update(@Validated @RequestBody User user) {
         userService.updateByPK(user);
@@ -74,4 +80,17 @@ public class UserController {
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }
+
+    @GetMapping("/listUserPage")
+    public Result listUserPage(@RequestParam(defaultValue = "0") Integer page,
+                                 @RequestParam(defaultValue = "0") Integer size,
+                                 @RequestParam(required = false) String keyword) {
+        PageHelper.startPage(page, size);
+        List<User> list = userService.listUserPage(keyword);
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+
+
 }

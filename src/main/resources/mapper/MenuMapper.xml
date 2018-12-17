@@ -16,26 +16,62 @@
     <result column="router_name" jdbcType="VARCHAR" property="routerName"/>
     <result column="link_url" jdbcType="VARCHAR" property="linkUrl"/>
     <result column="status" jdbcType="TINYINT" property="status"/>
+    <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+    <result column="seq_num" jdbcType="INTEGER" property="seqNum"/>
+    <result column="category" jdbcType="VARCHAR" property="category"/>
   </resultMap>
 
   <resultMap id="CustomResultMap" type="com.smart.model.Menu" extends="BaseResultMap">
-    <collection property="roleList" ofType="com.smart.model.Role">
-      <id column="role_id" jdbcType="BIGINT" property="id"/>
-      <result column="role_code" jdbcType="VARCHAR" property="code"/>
-      <result column="role_name" jdbcType="VARCHAR" property="name"/>
+    <collection property="permissionList" ofType="com.smart.model.Permission">
+      <id column="permission_id" jdbcType="BIGINT" property="id" />
+      <result column="permission_name" jdbcType="VARCHAR" property="name"/>
     </collection>
   </resultMap>
 
+  <resultMap id="MenuBOResultMap" type="com.smart.bo.MenuBO">
+    <id column="id" javaType="java.lang.Long" property="id"/>
+    <result column="name" javaType="java.lang.String" property="name"/>
+    <result column="parentId" javaType="java.lang.Long" property="parentId"/>
+    <result column="title" javaType="java.lang.String" property="title"/>
+    <result column="category" javaType="java.lang.String" property="category"/>
+    <result column="seqNum" jdbcType="INTEGER" property="seqNum"/>
+  </resultMap>
 
-  <select id="findAllMenusWithRoles" resultMap="CustomResultMap">
+
+  <select id="findAllMenusWithPermissions" resultMap="CustomResultMap">
     select
       m.*,
-      r.id as role_id,
-      r.code as role_code,
-      r.name as role_name
+      p.id as permission_id,
+      p.name as permission_name
     from `tbl_menu` m
-      left join `tbl_menu_role` mr on m.`id` = mr.`menu_id`
-      left join `tbl_role` r on mr.`role_id` = r.`id`
+      left join tbl_menu_permission mp on mp.menu_id = m.id
+      left join tbl_permission p on p.id = mp.permission_id
+    order BY m.seq_num
+  </select>
+
+  <select id="findMenuDetial" resultMap="CustomResultMap" >
+    SELECT tm.* ,tp.id AS permission_id,tp.name AS permission_name
+    FROM tbl_menu tm
+    LEFT JOIN tbl_menu_permission tmp
+    ON tm.id = tmp.menu_id
+    LEFT JOIN tbl_permission tp
+    ON tp.id = tmp.permission_id
+    where tm.id = #{id}
+  </select>
+
+  <select id="listMenuBO" resultMap="MenuBOResultMap">
+    SELECT id AS 'id',name AS 'name',parent_id AS 'parentId' ,
+    name AS 'title',category as'category',seq_num AS 'seqNum'
+    from tbl_menu
+    order BY seq_num
+  </select>
+
+  <select id="findByRoleId" resultMap="BaseResultMap">
+    SELECT tm.*
+    from tbl_menu tm ,tbl_menu_permission tmp ,tbl_role_permission trp
+    where trp.role_id = #{roleId}
+    AND trp.permission_id = tmp.permission_id
+    AND tmp.menu_id = tm.id
   </select>
 
 </mapper>

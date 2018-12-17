@@ -16,7 +16,7 @@ import java.util.List;
 * Created by smartsoft on 2018/09/07.
 */
 @RestController
-@RequestMapping("/code/group")
+@RequestMapping("/codeGroup")
 public class CodeGroupController {
     @Resource
     private CodeGroupService codeGroupService;
@@ -49,6 +49,16 @@ public class CodeGroupController {
     public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
         PageHelper.startPage(page, size);
         List<CodeGroup> list = codeGroupService.findAll();
+        PageInfo pageInfo = new PageInfo(list);
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @GetMapping("/filter")
+    public Result filter(@RequestParam(defaultValue = "0") Integer page,
+                         @RequestParam(defaultValue = "0") Integer size,
+                         @RequestParam(required = false) String keyword) {
+        PageHelper.startPage(page, size);
+        List<CodeGroup> list = codeGroupService.filter(keyword);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

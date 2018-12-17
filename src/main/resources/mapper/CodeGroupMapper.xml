@@ -15,4 +15,14 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="description" jdbcType="VARCHAR" property="description" />
   </resultMap>
+
+  <select id="filter" resultMap="BaseResultMap">
+    SELECT *
+    from tbl_code_group
+    <where>
+      <if test=" keyword != null">
+       AND tbl_code_group.name like concat('%',#{keyword},'%')
+      </if>
+    </where>
+  </select>
 </mapper>

@@ -2,9 +2,12 @@ package com.smart.service.impl;
 
 import com.smart.core.AbstractService;
 import com.smart.dao.RoleMapper;
+import com.smart.model.Menu;
 import com.smart.model.Permission;
 import com.smart.model.Role;
 import com.smart.model.RolePermission;
+import com.smart.service.MenuService;
+import com.smart.service.PermissionService;
 import com.smart.service.RolePermissionService;
 import com.smart.service.RoleService;
 import org.apache.commons.collections.CollectionUtils;
@@ -26,6 +29,8 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
     private RoleMapper roleMapper;
     @Resource
     private RolePermissionService rolePermissionService;
+    @Resource
+    private PermissionService permissionService;
 
     @Override
     public List<Role> findRolesByUserId(Long userId){
@@ -40,9 +45,9 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
     @Override
     public Role findRoleById(Long id) {
         Role role =  roleMapper.findRoleById(id);
-        if (CollectionUtils.isNotEmpty(role.getPermissionList())){
-            List<Long> list = role.getPermissionList().stream().map(Permission::getId).collect(Collectors.toList());
-            role.setPermissionIds(list);
+        if (CollectionUtils.isNotEmpty(role.getMenuList())){
+            List<Long> list = role.getMenuList().stream().map(Menu::getId).collect(Collectors.toList());
+            role.setMenuIds(list);
         }
         return role;
     }
@@ -50,11 +55,12 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
     @Override
     public void add(Role role) {
         Long id = save(role);
-        if (CollectionUtils.isNotEmpty(role.getPermissionIds())){
-            role.getPermissionIds().stream().forEach(item ->{
+        if (CollectionUtils.isNotEmpty(role.getMenuIds())){
+            List<Permission> permissions =permissionService.findByMenuId(role.getMenuIds());
+            permissions.stream().forEach(item ->{
                 RolePermission rolePermission = new RolePermission();
                 rolePermission.setRoleId(id);
-                rolePermission.setPermissionId(item);
+                rolePermission.setPermissionId(item.getId());
                 rolePermissionService.save(rolePermission);
             });
 
@@ -65,11 +71,12 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
     public void updateRole(Role role) {
         rolePermissionService.deleteByRoleId(role.getId());
         updateByPK(role);
-        if (CollectionUtils.isNotEmpty(role.getPermissionIds())){
-            role.getPermissionIds().stream().forEach(item ->{
+        if (CollectionUtils.isNotEmpty(role.getMenuIds())){
+            List<Permission> permissions =permissionService.findByMenuId(role.getMenuIds());
+            permissions.stream().forEach(item ->{
                 RolePermission rolePermission = new RolePermission();
                 rolePermission.setRoleId(role.getId());
-                rolePermission.setPermissionId(item);
+                rolePermission.setPermissionId(item.getId());
                 rolePermissionService.save(rolePermission);
             });
         }
